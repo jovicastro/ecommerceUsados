@@ -1,0 +1,52 @@
+{% extends 'bases/base.html' %}
+{% load static %}
+
+{% block title %}
+  Cadastro de Usuário
+{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'style/pages/add_user/adicionar_usuario.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="logo">
+            <img src="{% static 'images/global/logo_academy/logo-academy.png' %}" alt="Logo da Empresa"> 
+        </div>
+        <div class="form-container">
+            {% if messages %}
+                <ul>
+                    {% for message in messages %}
+                        <li class="{{ message.tags }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+
+            <h1>Criar Usuário</h1>
+            <form method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn">Criar Usuário</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+<script>
+    // Função para mostrar o alert com a mensagem
+    function showAlert(message) {
+        alert(message);
+    }
+
+    // Quando a página for carregada, verifica se há mensagens e exibe o alert
+    window.onload = function() {
+        {% if messages %}
+            {% for message in messages %}
+                showAlert("{{ message }}");
+            {% endfor %}
+        {% endif %}
+    };
+</script>
+{% endblock %}

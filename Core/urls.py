@@ -1,0 +1,17 @@
+from django.urls import path
+from .views import (Sobre, Contato, DetalhesEstacaoView,Leaderboard,Desenvolvedores, add_user, add_investidor,
+                    chatbot, chat_page_view)
+
+app_name = "Core"
+
+urlpatterns = [
+    path('sobre/', Sobre.as_view(), name='sobre'),
+    path('contato/', Contato.as_view(), name='contato'),
+    path('estacao/<str:nome>/', DetalhesEstacaoView.as_view(), name='detalhes_estacao'),
+    path('desenvolvedores/', Desenvolvedores.as_view(), name='desenvolvedores'),
+    path('criar_novo_usuario/', add_user, name='add_user'),
+    path('criar_novo_investidor/', add_investidor, name='add_investidor'),
+    path('leaderboard/', Leaderboard.as_view(), name='leaderboard'),
+    path('chatbot/', chat_page_view, name='chat_page'),
+    path('api/chatbot/', chatbot, name='chatbot_api'),
+]

@@ -1,0 +1,58 @@
+{% extends 'bases/base.html' %}
+{% load static %}
+
+{% block title %}Chat com IA{% endblock %}
+
+{% block content %}
+    <div class="container mt-4">
+        <div class="chat-container">
+            <h2>Converse com a IA</h2>
+            <div id="chat-response" style="background-color: #f0f0f0; padding: 10px; margin-bottom: 10px; border-radius: 5px; min-height: 50px;">
+                A resposta da IA aparecerá aqui...
+            </div>
+            <textarea id="prompt-input" rows="4" class="form-control" placeholder="Digite sua pergunta..."></textarea>
+            <button id="send-button" class="btn btn-primary mt-2">Enviar</button>
+        </div>
+    </div>
+
+    <script>
+        // Pega os elementos do HTML
+        const sendButton = document.getElementById('send-button');
+        const promptInput = document.getElementById('prompt-input');
+        const chatResponseDiv = document.getElementById('chat-response');
+
+        // Adiciona um evento de clique ao botão
+        sendButton.addEventListener('click', async () => {
+            const prompt = promptInput.value;
+            if (!prompt) {
+                alert('Por favor, digite uma pergunta.');
+                return;
+            }
+
+            chatResponseDiv.textContent = 'Pensando...';
+
+            try {
+                // AQUI ESTÁ A CHAVE: esta URL aponta para a API, não para a página atual!
+                const response = await fetch("{% url 'Core:chatbot_api' %}", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ prompt: prompt })
+                });
+
+                const data = await response.json();
+
+                if (data.error) {
+                    chatResponseDiv.textContent = 'Erro: ' + data.error;
+                } else {
+                    chatResponseDiv.textContent = data.response;
+                }
+
+            } catch (error) {
+                chatResponseDiv.textContent = 'Não foi possível conectar ao servidor. O Ollama está a rodar?';
+                console.error('Erro no fetch:', error);
+            }
+        });
+    </script>
+{% endblock %}

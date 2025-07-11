@@ -1,0 +1,311 @@
+{% extends 'bases/base.html' %}
+{% load static %}
+{% block head %}
+    <link rel="stylesheet" href="{% static 'style/pages/index/index.css' %}">
+{% endblock %}
+{% block title %}
+ 	Academy One - Home
+{% endblock %}
+{% block content %}
+    <main class="conteudo">
+        <section class="principal fade-in-up animate-in" data-animate id="principal-threads">
+            <article class="escrita">
+                <h1 class="titulo">Potencializando conhecimento, transformando alunos em profissionais.</h1>
+                <p class="paragrafo">No ENIAC Academy, não apenas incentivamos o aprendizado contínuo, mas o vivemos diariamente. Aqui, você está no controle de sua jornada educacional, superando desafios e conquistando seus objetivos. Buscamos entender as necessidades e aspirações dos nossos alunos para oferecer uma formação que realmente transforme. Junte-se a nós e faça do ENIAC Academy o seu parceiro para alcançar a excelência, moldando seu caminho para o sucesso.
+                </p>
+                <a href="{% url 'Core:contato' %}" class="botao">Faça parte da equipe</a>
+            </article>
+
+            <article class="imagem">
+                <img src="{% static 'images\pages\index\logo-principal.jpg' %}" alt="imagem representa um grupo de pessoas reunidas" class="img-principal">
+                <img src="{% static 'images\pages\index\bola-arco.png' %}" alt="bola e um arco" class="icon-superior">
+                <img src="{% static 'images\pages\index\meia-rosquinha.png' %}" alt="meia rosquinha" class="icon-inferior">
+            </article>
+
+            <div class="waves" id="waves-bg">
+                <canvas class="waves-canvas"></canvas>
+            </div>
+        </section>
+
+        <section class="objetivo fade-in-left" data-animate>
+            <h2 class="titulo">Nosso Objetivo</h2>
+            <div class="linha">
+                <div class="esquerda"></div>
+                <div class="direita"></div>
+            </div>
+            <p class="paragrafo">Nossa startup está empenhada em proporcionar crescimento pessoal e profissional aos nossos alunos. Por meio de equipes transdisciplinares e lideradas por profissionais do mercado, nossos alunos desenvolvem habilidades práticas nas Estações de Práticas Profissionais. Cada aluno pode escolher a estação que mais se identifica, alinhando seu aprendizado ao seu propósito e aspirações profissionais.
+            </p>
+        </section>
+
+        <section class="praticas fade-in-up" data-animate>
+            <h2 class="titulo">Conheças nossas estações de práticas</h2>
+            <p class="paragrafo">Nosso ecossistema de práticas profissionais conta com 12 estações, cada uma oferecendo uma imersão prática e personalizada em diferentes áreas do mercado. Durante o início do projeto, os alunos têm a oportunidade de explorar diversas carreiras, obtendo uma compreensão profunda das possibilidades disponíveis. Queremos que cada aluno encontre o caminho que melhor se alinha à sua trajetória e identidade profissional. Vamos juntos explorar as possibilidades e moldar o seu futuro com propósito e inovação!
+            </p>
+            <article class="estacoes fade-in-up" data-animate>
+                <h3 class="estacoes-titulo">Estações Acadêmicas</h3>
+                <div class="estacoes-card">
+                    <div class="card-item grande cinza">
+                        <a href="{% url 'Core:detalhes_estacao' 'GET' %}" style="text-decoration: none;color: #000;">
+                            <div class="card-logo">
+                                <img src="{% static 'images/estacoes/GET/logo/GET_preta.png' %}" alt="Estação de Get" class="logo-img">
+                            </div>
+                        </a>
+                    </div>
+                    <div class="card-item grande cinza">
+                        <a href="{% url 'Core:detalhes_estacao' 'PCA' %}" style="text-decoration: none;color: #000;">
+                            <div class="card-logo">
+                                <img src="src/images/mesas-logo/logo-PCA.png" alt="Estação de PCA" class="logo-img">
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            <article class="estacoes fade-in-up" data-animate>
+                <h3 class="estacoes-titulo">Estações Gestão</h3>
+                <div class="estacoes-card">
+                    <div class="card-item grande verde">
+                        <a href="{% url 'Core:detalhes_estacao' 'qualidade' %}" style="text-decoration: none;color: #000;">
+                            <div class="card-logo">
+                                <img src="src/images/mesas-logo/logo-qualidade.png" alt="Estação de qualidade" class="logo-img">
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="card-item grande verde">
+                        <a href="{% url 'Core:detalhes_estacao' 'ESG' %}" style="text-decoration: none;color: #000;">
+                            <div class="card-logo">
+                                <img src="{% static 'images\estacoes\ESG (Environmental, Social, and Governance)\icon\icon_esg.png'%}" alt="Estação de ESG" class="logo-img">
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="card-item grande verde">
+                        <a href="{% url 'Core:detalhes_estacao' 'PMO' %}" style="text-decoration: none;color: #000;">
+                            <div class="card-logo">
+                                <img src="#" alt="Estação de PMO" class="logo-img">
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="card-item grande verde">
+                        <a href="{% url 'Core:detalhes_estacao' 'BPO' %}" style="text-decoration: none;color: #000;">
+                            <div class="card-logo">
+                                <img src="#" alt="Estação de BPO" class="logo-img">
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="card-item grande verde">
+                        <a href="{% url 'Core:detalhes_estacao' 'RH' %}" style="text-decoration: none;color: #000;">
+                            <div class="card-logo">
+                                <img src="{% static 'images/estacoes/Recursos Humanos/icon/logo-rh-vertical.png' %}" alt="Estação de RH" class="logo-img">
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            <article class="estacoes fade-in-up" data-animate>
+                <h3 class="estacoes-titulo">Estações de Tecnologia da Informação</h3>
+                <div class="estacoes-card">
+                    <div class="card-item grande roxo">
+                        <a href="{% url 'Core:detalhes_estacao' 'No Code' %}" style="text-decoration: none;color: #000;">
+                            <div class="card-logo">
+                                <img src="{% static 'images/estacoes/No Code/icon/Design_sem_nome__7_-removebg-preview.png' %}" alt="Estação de No Code" class="logo-img">
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="card-item grande roxo">
+                        <a href="{% url 'Core:detalhes_estacao' 'Low Code' %}" style="text-decoration: none;color: #000;">
+                            <div class="card-logo">
+                                <img src="src/images/mesas-logo/logo-lowcode.png" alt="Estação de Low Code" class="logo-img">
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="card-item grande roxo">
+                        <a href="{% url 'Core:detalhes_estacao' 'Dev' %}" style="text-decoration: none;color: #000;">
+                            <div class="card-logo">
+                                <img src="{% static 'images/estacoes/Dev/icon/34-removebg-preview.png' %}" alt="Estação de Dev" class="logo-img">
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="card-item grande roxo">
+                        <a href="{% url 'Core:detalhes_estacao' 'Cloud' %}" style="text-decoration: none;color: #000;">
+                            <div class="card-logo">
+                                <img src="{% static 'images/estacoes/Cloud/icon/28-removebg-preview' %}" alt="Estação de Cloud" class="logo-img">
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            <article class="estacoes fade-in-up" data-animate>
+                <h3 class="estacoes-titulo">Estações de Comunicação Digital</h3>
+                <div class="estacoes-card">
+                    <div class="card-item grande azul">
+                        <a href="{% url 'Core:detalhes_estacao' 'Web' %}" style="text-decoration: none;color: #000;">
+                            <div class="card-logo">
+                                <img src="" alt="Estação de Web" class="logo-img">
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="card-item grande azul">
+                        <a href="{% url 'Core:detalhes_estacao' 'Mkt' %}" style="text-decoration: none;color: #000;">
+                            <div class="card-logo">
+                                <img src="{% static 'images/estacoes/Mkt/icon/22-removebg-preview.png' %}" alt="Estação de marketing" class="logo-img">
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="card-item grande azul">
+                        <a href="{% url 'Core:detalhes_estacao' 'Sdr' %}" style="text-decoration: none;color: #000;">
+                            <div class="card-logo">
+                                <img src="{% static 'images/estacoes/Sales Development Representative/icon/logo-sdr-vertical.png' %}" alt="Estação de Sdr" class="logo-img">
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </article>
+        </section>
+
+        <section class="depoimentos fade-in-up" data-animate>
+            <h2 class="titulo">Depoimentos</h2>
+            <div class="linha">
+                <div class="esquerda"></div>
+                <div class="direita"></div>
+            </div>
+
+            <article class="depoimentos-item">
+                <div class="card-depoimento ativo">
+                    <img src="{% static 'images\pages\index\depoimentos\depoimento01.jpeg' %}" alt="Foto do aluno(a)" class="imagem-card">
+                    <h3 class="card-titulo">Ricardo Zach</h3>
+                    <p class="card-paragrafo">
+                        "O academy trás o conceito de treinar o adolescente para o mercado de trabalho, visando prepará-los para receber projetos e processos reais."
+                    </p>
+                </div>
+
+                <div class="card-depoimento">
+                    <img src="{% static 'images\pages\index\depoimentos\depoimento02.jpeg' %}" alt="Foto do aluno(a)" class="imagem-card">
+                    <h3 class="card-titulo">Rebeka Sukalaya</h3>
+                    <p  class="card-paragrafo">
+                        "Achei o ambiente profissional, onde desenvolvi bem a minha comunicação e métodos de resolução de problemas."
+                    </p>
+                </div>
+
+                <div class="card-depoimento">
+                    <img src="{% static 'images\pages\index\depoimentos\depoimento03.jpeg' %}" alt="Foto do aluno(a)" class="imagem-card">
+                    <h3 class="card-titulo">Miguel Perrella</h3>
+                    <p  class="card-paragrafo">
+                        "Em geral o academy melhorou o meu desenvolvimento tanto com os colegas como meu desenvolvimento em relação ao trabalho."
+                    </p>
+                </div>
+
+                <div class="card-depoimento">
+                    <img src="{% static 'images\pages\index\depoimentos\depoimento04.jpeg' %}" alt="Foto do aluno(a)" class="imagem-card">
+                    <h3 class="card-titulo">Júlia Lessa</h3>
+                    <p  class="card-paragrafo">
+                        "Tive um grande aprendizado, bastante conhecimento e muita ajuda, estou gostando muito."
+                    </p>
+                </div>
+            </article>
+
+            <article class="depoimento-botao">
+                <button class="botao-item ativo"></button>
+                <button class="botao-item"></button>
+                <button class="botao-item"></button>
+                <button class="botao-item"></button>
+            </article>
+
+            <img src="{% static 'images\pages\index\bolinhas.png' %}" alt="bolinhas" class="bolhinhas-esquerda">
+            <img src="{% static 'images\pages\index\bolinhas.png' %}" alt="bolinhas" class="bolhinhas-direita">
+        </section>
+
+        <section class="empresas">
+            <h2 class="titulo">Empresas parceiras</h2>
+            <div class="linha">
+                <div class="esquerda"></div>
+                <div class="direita"></div>
+            </div>
+
+
+            <article class="empresas-cards">
+                <div class="card-item ativo">
+                    <img src="{% static 'images\pages\index\empresas\eniac.png' %}" alt="" class="imagem-card">
+                </div>
+
+
+                <div class="card-item">
+                    <img src="{% static 'images\pages\index\empresas\eniacventures.png' %}" alt="" class="imagem-card">
+                </div>
+
+
+                <div class="card-item">
+                    <img src="{% static 'images\pages\index\empresas\mobi.png' %}" alt="" class="imagem-card">
+                </div>
+
+
+                <div class="card-item">
+                    <img src="{% static 'images\pages\index\empresas\cegru.png' %}" alt="" class="imagem-card">
+                </div>
+
+
+                <div class="card-item">
+                    <img src="{% static 'images\pages\index\empresas\jbq.png' %}" alt="" class="imagem-card jbq">
+                </div>
+
+
+                <div class="card-item">
+                    <img src="{% static 'images\pages\index\empresas\teltec.png' %}" alt="" class="imagem-card">
+                </div>
+
+
+                <div class="card-item">
+                    <img src="{% static 'images\pages\index\empresas\rb.png' %}" alt="" class="imagem-card rb">
+                </div>
+
+                <div class="card-item">
+                    <img src="{% static 'images\pages\index\empresas\kafnet.png' %}" alt="" class="imagem-card">
+                </div>
+
+                <div class="card-item">
+                    <img src="{% static 'images\pages\index\empresas\zoho.jpg' %}" alt="" class="imagem-card">
+                </div>
+
+                <div class="card-item">
+                    <img src="{% static 'images\pages\index\empresas\erpflex.jpg' %}" alt="" class="imagem-card">
+                </div>
+            </article>
+
+            <article class="card-botao">
+                <button class="botao-card ativo"></button>
+                <button class="botao-card"></button>
+                <button class="botao-card"></button>
+                <button class="botao-card"></button>
+                <button class="botao-card"></button>
+                <button class="botao-card"></button>
+                <button class="botao-card"></button>
+                <button class="botao-card"></button>
+                <button class="botao-card"></button>
+                <button class="botao-card"></button>
+            </article>
+        </section>
+
+        
+    </main>
+{% endblock %}
+{% block js %}
+    <!-- OGL UMD - deve vir primeiro -->
+    <script src="https://unpkg.com/ogl@0.0.32/dist/ogl.umd.js"></script>
+
+    <!-- Script da animação Threads -->
+    <script src="{% static 'script/global/threadsBackground.js' %}"></script>
+    <script src="{% static 'script/global/wavesBackground.js' %}"></script>
+    <!-- Scripts dos sliders -->
+    <script src="{% static 'script/pages/index/slider-depoimentos.js' %}"></script>
+    <script src="{% static 'script/pages/index/slider-empresas.js' %}"></script>
+{% endblock %}

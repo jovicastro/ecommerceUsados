@@ -1,0 +1,50 @@
+{% extends 'bases/navbar.html' %}
+{% load static %}
+{% block title %}
+Index Dashboard
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'style/pages/dashboard/index/index_dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+{% comment %} Sub-navbar para navegação interna do Dashboard {% endcomment %}
+<nav class="sub-navbar">
+    <a href="{% url 'Dashboard:index_estacao' %}" class="subnav-item {% if request.path == '/dashboard/' %}ativo{% endif %}"><span style="margin-right:8px;">🏠</span>Início</a>
+    <a href="{% url 'Dashboard:user' %}" class="subnav-item {% if request.path == '/dashboard/user/' %}ativo{% endif %}"><span style="margin-right:8px;">👤</span>Perfil</a>
+    <a href="{% url 'Dashboard:ebook_estacoes' %}" class="subnav-item {% if request.path == '/dashboard/ebook/' %}ativo{% endif %}"><span style="margin-right:8px;">📚</span>E-book</a>
+</nav>
+<main class="dashboard">
+        <header class="page-header">
+            <h1 class="title">E-BOOK</h1>
+            <p class="subtitle">Bem-vindo à nossa biblioteca digital. Aqui você encontra uma coleção completa de e-books para apoiar 
+                seus estudos. Navegue pelas categorias, encontre os materiais que precisa e aprofunde seus conhecimentos.</p>
+        </header>
+
+        <section class="estacoes-section">
+            <h2 class="section-title">Estações</h2>
+            <p class="section-subtitle">Clique na estação para visualizar seu E-book</p>
+        </section>
+
+        <div class="container">
+    
+    {% for ebook in ebooks_list %}
+    <div class="card">
+        <div class="circle">
+            <img src="{% static 'images/pages/dashboard/index_dashboard/svg/book.svg' %}" alt="Ícone E-book">
+        </div>
+        
+        <h3>{{ ebook.titulo }}</h3>
+        
+        <a href="{% url 'Dashboard:ebook_detalhe' pk=ebook.id %}">
+            <button class="btn">Ver E-book</button>
+        </a>
+    </div>
+    {% empty %}
+        <p>Nenhum e-book cadastrado ainda.</p>
+    {% endfor %}
+    </div>
+
+    </main>
+{% endblock %}

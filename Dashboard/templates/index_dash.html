@@ -1,0 +1,56 @@
+{% extends 'bases/navbar.html' %}
+{% load static %}
+
+{% block title %}
+Index Dashboard
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'style/pages/dashboard/index/index_dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'style/pages/dashboard/index/index_dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+<main class="dashboard">
+    {% comment %} Sub-navbar para navegação interna do Dashboard {% endcomment %}
+    <nav class="sub-navbar">
+        <a href="{% url 'Dashboard:index_estacao' %}" class="subnav-item {% if request.path == '/dashboard/' %}ativo{% endif %}"><span style="margin-right:8px;">🏠</span>Início</a>
+        <a href="{% url 'Dashboard:user' %}" class="subnav-item {% if request.path == '/dashboard/user/' %}ativo{% endif %}"><span style="margin-right:8px;">👤</span>Perfil</a>
+        <a href="{% url 'Dashboard:ebook_estacoes' %}" class="subnav-item {% if request.path == '/dashboard/ebook/' %}ativo{% endif %}"><span style="margin-right:8px;">📚</span>E-book</a>
+        {# Adicione outros links conforme necessário #}
+    </nav>
+    <h1 class="title">PROJETOS</h1>
+    <p class="project" style="margin-top: 1px;">Dashboard responsável por gerenciar os melhores projetos</p>
+
+    <h2 class="titulo">Estações</h2>
+    <p class="texto">Clique na estação para visualizar seus projetos</p>
+
+    <div class="container">
+        <!-- Cards -->
+        {% for estacoes in estacoes_get %}
+        <div class="card">
+            <div class="circle">
+                <img src="{{ estacoes.icon.url }}" alt="" srcset="" style="max-width: 92px; width: 95%; max-height: 87px; height: 95%;">
+            </div>
+            <h3 class="title">{{ estacoes.nome }}</h3>
+            <a href="{% url 'Dashboard:list_estacao' estacoes.nome %}">
+                <button class="btn">Analisar</button>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</main>
+{% endblock %}
+
+{% block js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.progress-bar').forEach(function(bar) {
+    const percent = bar.textContent.replace('%','').trim() || bar.getAttribute('data-progress') || 0;
+    setTimeout(() => {
+      bar.style.width = percent + '%';
+    }, 400);
+  });
+});
+</script>
+{% endblock %}

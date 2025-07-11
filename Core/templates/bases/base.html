@@ -1,0 +1,164 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'style\global\global.css' %}">
+    {% block head %}
+    {% endblock %}
+    <title>{% block title %} {% endblock %}</title>
+</head>
+<body>
+
+    {% if request.path == '/' or request.path == '/core/sobre/' or request.path == '/core/contato/' %}
+        <header class="cabecalho" style="background-color: var(--azul-escuro); border-bottom: 2px solid var(--azul-claro);">
+    {% else %}
+    {% block header %}
+    <header class="cabecalho" style="background-color: {{ paleta_cor.cor_principal }}; border-bottom: 2px solid {{ paleta_cor.cor_detalhes }};">
+    {% endblock %}
+    {% endif %}
+
+
+        <section class="logo">
+            <a href="{% url 'homepage' %}">
+                <img src="{% static '/images/global/logo_academy/logo-academy.png' %}" alt="Logo Academy One" class="logo-item">
+            </a>
+        </section>
+
+        <section class="menu">
+            <nav class="menu-item">
+                <a href="{% url 'homepage' %}" class="item {% if request.path == '/' %}ativo{% endif %}">Home</a>
+                <a href="{% url 'Core:sobre' %}" class="item {% if request.path == '/core/sobre/' %}ativo{% endif %}">Sobre</a>
+                <a href="{% url 'Core:desenvolvedores' %}" class="item {% if request.path == '/core/desenvolvedores/' %}ativo{% endif %}">Devs</a>
+                <a href="{% url 'Core:contato' %}" class="item {% if request.path == '/core/contato/' %}ativo{% endif %}">Contatos</a>
+                {% if user.is_authenticated %}
+                <a href="{% url 'Dashboard:index_estacao' %}" class="item {% if request.path == '/core/dashboard/' %}ativo{% endif %}">Dashboard</a>
+                <a href="{% url 'Core:leaderboard' %}" class="item {% if request.path == '/core/leaderboard/' %}ativo{% endif %}">Leaderboard</a>
+                {% endif %}
+            </nav>
+            <button id="voice-assist-btn" aria-label="Ativar assistente de voz" class="botao-acessibilidade">
+              🗣️ Acessibilidade
+            </button>
+            {% if not user.is_authenticated %}
+            <a href="{% url 'account_login' %}" class="botao">Entrar</a>
+            {% else %}
+            <a href="{% url 'account_logout' %}" class="botao">Sair</a>
+            {% endif %}
+        </section>
+
+        <section class="mobile" onclick="menuShow()">
+            <div class="mobile-item"></div>
+            <div class="mobile-item"></div>
+            <div class="mobile-item"></div>
+        </section>
+    </header>
+    {% block content %}
+    {% endblock %}
+    <footer class="rodape">
+        <section class="imagem">
+            <img src="{% static '/images/global/logo_academy/logo-academy.png' %}" alt="logo academy one footer" class="imagem-item">
+        </section>
+    </footer>
+    <!-- Botão flutuante do chat -->
+    <div id="chatbot-fab">
+      <div id="chatbot-fab-bar" onclick="toggleAndExpandChatbot();">
+        <img src="{% static 'images/global/perfil/default_avatar.png' %}" alt="Chatbot">
+        <span class="chatbot-title">Assistente Virtual</span>
+        <span class="chatbot-icons">
+          <button class="chatbot-icon-btn" id="expand-chatbot-btn" title="Expandir" type="button" onclick="expandChatbot(event); event.stopPropagation();">
+            <svg id="expand-icon" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 18H5a2 2 0 0 1-2-2v-4m0-4V5a2 2 0 0 1 2-2h4m6 0h4a2 2 0 0 1 2 2v4m0 6v4a2 2 0 0 1-2 2h-4"/></svg>
+            <svg id="minimize-icon" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="display:none"><path d="M4 15v2a2 2 0 0 0 2 2h2m6 0h2a2 2 0 0 0 2-2v-2m0-6V5a2 2 0 0 0-2-2h-2m-6 0H6a2 2 0 0 0-2 2v2"/></svg>
+          </button>
+          <button class="chatbot-icon-btn" title="Mais opções" type="button" onclick="event.stopPropagation(); return false;"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg></button>
+        </span>
+      </div>
+      <div id="chatbot-window">
+        <div class="chatbot-header">
+          <span>Assistente Virtual</span>
+          <button onclick="toggleChatbot(); event.stopPropagation();">×</button>
+        </div>
+        <div class="chatbot-body">
+          <div id="chat-response" style="background-color: #f0f0f0; padding: 10px; margin-bottom: 10px; border-radius: 5px; min-height: 50px;">
+            A resposta da IA aparecerá aqui...
+          </div>
+          <textarea id="prompt-input" rows="3" class="form-control" placeholder="Digite sua pergunta..."></textarea>
+          <button id="send-button" class="btn btn-primary mt-2" style="margin-top: 8px;">Enviar</button>
+        </div>
+      </div>
+    </div>
+    <script src="{% static 'script/global/menuShow.js' %}"></script>
+    <script src="{% static 'script/global/voiceAssist.js' %}"></script>
+    <script src="{% static 'script/global/responsive.js' %}"></script>
+    <script src="{% static 'script/global/scrollAnimations.js' %}"></script>
+</body>
+</html>
+
+{% block js %}
+{% endblock %}
+
+<script>
+function expandChatbot(event) {
+  event.stopPropagation();
+  const fab = document.getElementById('chatbot-fab');
+  const expandIcon = document.getElementById('expand-icon');
+  const minimizeIcon = document.getElementById('minimize-icon');
+  fab.classList.toggle('expanded');
+  if (fab.classList.contains('expanded')) {
+    expandIcon.style.display = 'none';
+    minimizeIcon.style.display = 'inline';
+  } else {
+    expandIcon.style.display = 'inline';
+    minimizeIcon.style.display = 'none';
+  }
+}
+
+function expandChatbotBar() {
+  const fab = document.getElementById('chatbot-fab');
+  const expandIcon = document.getElementById('expand-icon');
+  const minimizeIcon = document.getElementById('minimize-icon');
+  if (!fab.classList.contains('expanded')) {
+    fab.classList.add('expanded');
+    expandIcon.style.display = 'none';
+    minimizeIcon.style.display = 'inline';
+  }
+}
+
+window.toggleChatbot = function() {
+  const chatFab = document.getElementById('chatbot-fab');
+  if (chatFab) {
+    chatFab.classList.toggle('open');
+    // Salva o estado no localStorage
+    if (chatFab.classList.contains('open')) {
+      localStorage.setItem('chatbot_open', '1');
+    } else {
+      localStorage.setItem('chatbot_open', '0');
+    }
+  }
+};
+
+function toggleAndExpandChatbot() {
+  const fab = document.getElementById('chatbot-fab');
+  const expandIcon = document.getElementById('expand-icon');
+  const minimizeIcon = document.getElementById('minimize-icon');
+  // Toggle open
+  fab.classList.toggle('open');
+  // Toggle expanded
+  fab.classList.toggle('expanded');
+  // Ajusta ícones
+  if (fab.classList.contains('expanded')) {
+    expandIcon.style.display = 'none';
+    minimizeIcon.style.display = 'inline';
+  } else {
+    expandIcon.style.display = 'inline';
+    minimizeIcon.style.display = 'none';
+  }
+  // Salva o estado no localStorage
+  if (fab.classList.contains('open')) {
+    localStorage.setItem('chatbot_open', '1');
+  } else {
+    localStorage.setItem('chatbot_open', '0');
+  }
+}
+</script>

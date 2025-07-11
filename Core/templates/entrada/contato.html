@@ -1,0 +1,51 @@
+{% extends 'bases/base.html' %}
+{% load static %}
+
+{% block head %}
+    <link rel="stylesheet" href="{%static '/style/pages/contato/contato.css'%}">
+{% endblock %}
+
+{% block title %}
+Academy One - Contato
+{% endblock %}
+{% block content %}
+    <main class="conteudo-contato">
+        <h2 class="titulo fade-in-up" data-animate>Entre em contato conosco!</h2>
+        <div class="informacoes">
+            <section class="imagem fade-in-left" data-animate>
+                <img src="{% static '/images/pages/contato/principal-contato.png' %}" alt="Imagem ilustrativa de contato">
+            </section>
+
+            <section class="escrita fade-in-right" data-animate>
+                <article class="card">
+                    <div class="card-item">
+                        <i class="bi bi-whatsapp icon" ></i>
+                        <p class="paragrafo">+55 11 99996-3175</p>
+                    </div>
+                    <div class="card-item">
+                        <i class="bi bi-geo-alt icon"></i>
+                        <p class="paragrafo">Rua Força Pública, 89 Guarulhos - SP</p>
+                    </div>
+                    <div class="card-item">
+                        <i class="bi bi-envelope icon"></i>
+                        <p class="paragrafo">mauro.roberto@eniac.edu.br</p>
+                    </div>
+                </article>
+                <article class="redes-socias">
+                    <a href="#" class="item">
+                        <i class="bi bi-facebook item-icon"></i>
+                    </a>
+                    <a href="https://www.instagram.com/eniac.academy.one?igsh=dXNpeDczcGU5Y3Zl" class="item">
+                        <i class="bi bi-instagram item-icon"></i>
+                    </a>
+                    <a href="#" class="item">
+                        <i class="bi bi-tiktok item-icon"></i>
+                    </a>
+                </article>
+            </section>
+        </div>
+    </main>
+{% endblock %}
+{% block js %}
+    <script src="{% static '/script/menuShow.js' %}"></script>
+{% endblock %}

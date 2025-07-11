@@ -1,0 +1,148 @@
+{% extends 'bases/base.html' %}
+{% load static %}
+{% block head %}
+    <link rel="stylesheet" href="{% static 'style\pages\estacoes\detalhes_estacao.css' %}">
+    <style>
+        /*Variaveis de cores*/
+        
+        {% for paleta_cor in paleta_cor_list %}
+        
+        :root {
+            --font-padrao: "Poppins", sans-serif;
+            --roxo-escuro: #{{ paleta_cor.cor_principal }};
+            --roxo-claro: #{{ paleta_cor.cor_detalhes }};
+        }
+        
+        {% endfor %}
+        /*Variaveis de cores*/
+        </style>
+{% endblock %}
+{% block title %}
+    {{estacao.nome}} - Academy
+{% endblock %}
+{% block content %}
+    <main>
+        <section class="principal" style="background-color: var(--roxo-escuro);">
+            <article class="escrita">
+                <h2 class="titulo" style="color: var(--roxo-claro);">{{ estacao.nome }}</h2>
+                <p class="paragrafo">
+                    {{ estacao.descricao_estacao }}
+                </p>
+                <a href="{% url 'Core:contato' %}" class="botao" style="background-color: var(--roxo-claro);">Faça parte da equipe</a>
+            </article>
+            <article class="imagem">
+                <img src="{{ estacao.logo.url }}" alt="{{estacao.nome}} - Imagem" class="imagem-item" style="width: 260px;height: 260px">
+            </article>
+        </section>
+
+        <section class="funciona">
+            <h2 class="titulo" style="color: var(--roxo-claro);">Como funciona?</h2>
+            <p class="paragrafo">{{ estacao.texto_funcionamento }}</p>
+        </section>
+
+        <section class="servicos" style="background-color: var(--roxo-escuro);">
+            <h2 class="titulo" style="color: var(--roxo-claro);">Serviços</h2>
+            <div class="servicos-card">
+                <article class="servicos-item" >
+                    <div class="servicos-imagem" style="background-color: var(--roxo-claro);">
+                        <img src="{% static 'images\global\vectores\serv1.png' %}" alt="" class="imagem-item">
+                    </div>
+                    <p class="servico-paragrafo">{{ estacao.Servico_1 }}</p>
+                </article>
+                <article class="servicos-item">
+                    <div class="servicos-imagem" style="background-color: var(--roxo-claro);">
+                        <img src="{% static 'images\global\vectores\serv2.png' %}" alt="" class="imagem-item">
+                    </div>
+                    <p class="servico-paragrafo">{{ estacao.Servico_2 }}</p>
+                </article>
+                <article class="servicos-item">
+                    <div class="servicos-imagem" style="background-color: var(--roxo-claro);">
+                        <img src="{% static 'images\global\vectores\serv3.png' %}" alt="" class="imagem-item">
+                    </div>
+                    <p class="servico-paragrafo">{{ estacao.Servico_3 }}</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="beneficios">
+            <article class="escrito">
+                <h2 class="escrito-titulo" style="color: var(--roxo-claro);">Resposabilidade</h2>
+                <p class="escrito-paragrafo">
+                    {{ estacao.responsabilidade }}
+                </p>
+            </article>
+            <article class="card">
+                <h2 class="titulo-card" style="color: var(--roxo-claro);">Beneficios</h2>
+                <div class="beneficios-card">
+                    {% for imagem_beneficio in img_beneficios_cores %}
+                    <div class="card-item">
+                        <div class="card-imagem" >
+                            <img src="{{ imagem_beneficio.imagem.url }}" alt="{{ imagem_beneficio.alt }}" class="imagem-item">
+                        </div>
+                        {% if forloop.counter == 1 %}
+                        <p class="card-paragrafo"> {{ estacao.Beneficios_1 }}</p>
+                        {% elif forloop.counter == 2 %}
+                        <p class="card-paragrafo">{{ estacao.Beneficios_2 }}</p>
+                        {% elif forloop.counter == 3 %}
+                        <p class="card-paragrafo">{{ estacao.Beneficios_3 }}</p>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+            </article>
+        </section>
+
+        <section class="equipes">
+            <article class="carrossel-titulo">
+                <h2 class="titulo-item" style="color: var(--roxo-claro);">Equipes</h2>
+            </article>
+            <article class="imagens-carrossel">
+                <i>
+                    {% for imagens_equipes in img_equipes %}
+                    <input checked type="radio" name="s" style="background-image: url('{{ imagens_equipes.imagem.url }}');" title="{{ imagens_equipes.alt}}">
+                    {% endfor %}
+                </i>
+            </article>
+        </section> 
+
+        <section class="ideal">
+            <h2 class="ideal-titulo" style="color: var(--roxo-claro);">Ideial para</h2>
+
+            <article class="ideal-card">
+                {% for ideal_para_item in img_ideais_para %}
+                <div class="card-item">
+                    <div class="card-imagem">
+                        <img src="{{ ideal_para_item.imagem.url }}" alt="{{ ideal_para_item.alt }}" class="imagem-item">
+                    </div>
+                    {% if forloop.counter == 1 %}
+                    <p class="paragrafo"> {{ estacao.Ideal_para_1 }}</p>
+                    {% elif forloop.counter == 2 %}
+                    <p class="paragrafo">{{ estacao.Ideal_para_2 }}</p>
+                    {% elif forloop.counter == 3 %}
+                    <p class="paragrafo">{{ estacao.Ideal_para_3 }}</p>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </article>
+        </section>
+
+        <section class="competencias">
+            <h2 class="titulo" style="color: var(--roxo-claro);">Competências desenvolvidas</h2>
+            <article class="cards">
+                {% for competencia in range_simulado %}
+                <div class="card-item" style="background-color: var(--roxo-claro); border: 5px solid var(--roxo-escuro);">
+                    {% if forloop.counter == 1 %}
+                    <p class="paragrafo">{{ estacao.Competencia_1 }}</p>
+                    {% elif forloop.counter == 2 %}
+                    <p class="paragrafo">{{ estacao.Competencia_2 }}</p>
+                    {% elif forloop.counter == 3 %}
+                    <p class="paragrafo">{{ estacao.Competencia_3 }}</p>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </article>
+        </section>
+    </main>
+{% endblock %}
+{% block js %}
+{% endblock %}

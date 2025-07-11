@@ -1,0 +1,92 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %}{% endblock %}</title>
+
+        <!--css-->
+        {% block head %}
+        {% endblock %}
+        
+        {% block css %}
+        {% endblock %}
+        <link rel="stylesheet" href="{% static 'style\pages\dashboard\menu.css' %}">
+    </head>
+    <body>
+    <nav class="navbar" style="background-color: #1D267D;">
+        <div class="navbar-top-section">
+            <a class="navbar-logo-link" href="{% url 'homepage' %}">
+                <img class="navbar-logo-img" src="{% static 'images\global\logo_academy\logo-academy.png' %}" alt="logo">
+            </a>
+            <button class="navbar-toggler">
+                <img class="navbar-toggler-img" src="{% static 'images\pages\dashboard\index_dashboard\svg\menu.svg' %}" alt="menu-toggler" width="28">
+            </button>
+        </div>
+
+        <ul class="menu-list">
+            <li class="menu-item">
+                <a class="menu-link" href="{% url 'Dashboard:index_estacao' %}">
+                    <img src="{% static 'images\pages\dashboard\index_dashboard\svg\grid.svg' %}" class="menu-icon" alt="grid">
+                    <span class="menu-link-text">Dashboard</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a class="menu-link" href="{% url 'Dashboard:user' %}">
+                    <img src="{% static 'images\pages\dashboard\index_dashboard\svg\user.svg' %}" class="menu-icon" alt="user">
+                    <span class="menu-link-text">Alunos</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a class="menu-link" href="{% url 'Dashboard:ebook_estacoes' %}">
+                    <img src="{% static 'images\pages\dashboard\index_dashboard\svg\book.svg' %}" class="menu-icon" alt="user">
+                    <span class="menu-link-text">E-book</span>
+                </a>
+            </li>
+            {% if request.user.is_staff or request.user.is_superuser %}
+            <li class="menu-item">
+                <a class="menu-link" href="/admin/">
+                    <img src="{% static 'images\pages\dashboard\index_dashboard\admin.svg' %}" class="menu-icon" alt="user">
+                    <span class="menu-link-text">Administrador</span>
+                </a>
+            </li>
+            {% endif %}
+        </ul>
+
+        <div class="user-container">
+            <div class="user-info">
+                <img class="user-img" src="" alt="photo">
+                <div class="user-details">
+                    <h5 class="user-name">{{ request.user.get_full_name|slice:"20" }}</h5>
+                    <p class="user-occupation">
+                        {% if request.user.is_staff %}Admin{% else %}{{ request.user.groups.all|join:", " }}{% endif %}
+                    </p>
+                </div>
+            </div>
+            <a class="logout-btn" href="{% url 'account_logout' %}">
+                <img class="logout-img" src="{% static 'images\pages\dashboard\index_dashboard\svg\log-out.svg' %}" alt="logout">
+            </a>
+        </div>
+    </nav>
+
+    {% block content %}
+    {% endblock %}
+</body>
+</html>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const navbar = document.querySelector('.navbar');
+    const navbarToggler = document.querySelector('.navbar-toggler');
+
+    if (navbarToggler && navbar) {
+        navbarToggler.addEventListener('click', () => {
+            // Alterna a classe correta para o menu mobile funcionar
+            navbar.classList.toggle('mobile-open');
+        });
+    }
+});
+</script>
+{% block js %}
+{% endblock %}

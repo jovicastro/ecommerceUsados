@@ -1,0 +1,162 @@
+{% extends 'bases/navbar.html' %}
+{% load static %}
+
+
+{% block title %}
+    Lista de Projetos - AcademyOne
+{% endblock %}
+
+
+{% block head %}
+{% endblock %}
+
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'style/pages/dashboard/index/index_dashboard.css' %}">
+{% endblock %}
+        
+{% block content %}
+
+<main class="dashboard">
+    <nav class="sub-navbar">
+        <a href="{% url 'Dashboard:index_estacao' %}" class="subnav-item {% if request.path == '/dashboard/' %}ativo{% endif %}"><span style="margin-right:8px;">🏠</span>Início</a>
+        <a href="{% url 'Dashboard:user' %}" class="subnav-item {% if request.path == '/dashboard/user/' %}ativo{% endif %}"><span style="margin-right:8px;">👤</span>Perfil</a>
+        <a href="{% url 'Dashboard:ebook_estacoes' %}" class="subnav-item {% if request.path == '/dashboard/ebook/' %}ativo{% endif %}"><span style="margin-right:8px;">📚</span>E-book</a>
+    </nav>
+    <header>
+        <div class="header-content">
+            <img src="{% static 'static\images\global\logo_academy\logo-academy.png' %}" alt="Logo" class="logo"> <!-- Substitua pelo caminho da sua logo -->
+           
+            {% if estacao.nome|length > 30 %}
+            <h1>Controle de Projetos - {{ estacao.nome|slice:"30" }} </h1>
+            {% else %}
+            <h1> Controle de Projetos - {{ estacao.nome }}</h1>
+            {% endif %}
+        </div>
+    </header>
+    <div class="cards">
+        <div class="card" id="total-projects"><span>{{ projetos_get|length }}</span><br>Total</div>
+        <div class="card" id="ongoing-projects"><span>{{ total_em_andamento }}</span><br>Em Andamento<br><span style="font-size: 15px;">status</span></div>
+        <div class="card" id="standby-projects"><span>{{ stand_by }}</span><br>Stand-by<br><span style="font-size: 15px;">fase</span></div>
+        <div class="card" id="completed-projects"><span>{{ concluido }}</span><br>Concluído<br><span style="font-size: 15px;">fase</span></div>
+        <div class="card" id="delayed-projects"><span>{{ atrasado }}</span><br>Atrasado<br><span style="font-size: 15px;">status</span></div>
+    </div>
+
+    <div class="filters">
+        <div class="filter">
+            <select id="project-filter">
+                <option value="todos">Todos</option>
+                <option value="Em andamento">Em andamento</option>
+                <option value="Stand-by">Stand-by</option>
+                <option value="Concluído">Concluído</option>
+                <option value="Atrasado">Atrasado</option>
+            </select>            
+        </div>
+        <div class="search">
+            <input type="text" id="project-search" placeholder="Pesquisar Projetos...">
+        </div>
+    </div>
+<div id="container">
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nome do Projeto</th>
+            <th>N Desafio</th>
+            <th>Proprietário</th>
+            <th>Gestor</th>
+            <th>Início</th>
+            <th>Término</th>
+            <th>Fase</th>
+            <th>Status</th>
+            <th>Progresso</th>
+            <th>Inspecionar</th>
+            <th>Deletar</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        {% for projetos in projetos_get %}
+    <!-- começo de um projeto -->
+        <tr>
+            <td>{{ projetos.id }}</td>
+            {% if projetos.nome_projeto|length > 30 %}
+                <td>{{ projetos.nome_projeto|slice:":30" }}...</td>
+                {% else %}
+                <td>{{ projetos.nome_projeto }}</td>
+            {% endif %}
+
+            <td>{{ projetos.numero_desafio }}</td>
+
+            {% if projetos.Proprietario|length > 30 %}
+                <td>{{ projetos.Proprietario|slice:":30" }}...</td>
+            {% else %}
+            <td>{{ projetos.Proprietario }} </td>
+            {% endif %}
+            {% if projetos.gestor|length > 30 %}
+                <td>{{ projetos.gestor|slice:":30" }}</td>
+            {% else %}
+                <td>{{ projetos.gestor }}</td>
+            {% endif %}
+
+            <td>{{ projetos.start_date }}</td>
+            
+            <td>{{ projetos.end_date }}</td>
+            
+            {% if projetos.fase == "Concluido" %}
+                <td>Concluido</td>
+            {% else %}
+                <td>{{ projetos.fase }}</td>
+            {% endif %}
+
+            {% if projetos.status == "Em_andamento" %}
+            <td>Em andamento</td>
+            {% else %}
+            <td>{{ projetos.status }}</td>
+            {% endif %}
+            
+<td>
+    <div class="progress-wrapper">
+        <div class="progress-container">
+            <div class="progress-bar" style="width: {{ projetos.Progresso }}%;"></div>
+        </div>
+        <span>{{ projetos.Progresso }}%</span>
+</td>
+<td>
+    <a href="{% url 'Dashboard:visualizar_detalhes' projetos.id %}">
+        <button class="search-button" title="Pesquisar">
+                <img src="{% static 'images\pages\dashboard\index_dashboard\searche.png' %}" alt="" width="16px">
+        </button>
+    </a>
+</td>
+<td>
+        <button class="delete-button" title="Excluir">
+            <img src="{% static 'images/pages/dashboard/index_dashboard/trash.png' %}" alt="trash" width="16px">
+        </button>        
+    </div>
+</td>
+</tr>
+    {% endfor %}
+</tbody>
+</table>
+</div>
+<div class="pagination">
+    <a href="#paginador1">1</a>
+    <a href="pagina2.html">2</a>
+    <a href="pagina3.html">3</a>
+    <a href="pagina4.html">4</a>
+    <a href="pagina5.html">5</a>
+    <a href="pagina6.html">6</a>
+    <a href="pagina7.html">7</a>
+    <a href="pagina8.html">8</a>
+    <a href="pagina9.html">9</a>
+    <a href="pagina10.html">10</a>
+</div>
+
+
+
+
+{% endblock %}
+{% block js %}
+<script src="{% static 'script\pages\dashboard\list_projects\dashboard.js' %}"></script>
+{% endblock %}

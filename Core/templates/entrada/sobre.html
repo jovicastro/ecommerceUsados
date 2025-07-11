@@ -1,0 +1,72 @@
+{% extends 'bases/base.html' %}
+{% load static %}
+{% block head %}
+    <link rel="stylesheet" href="{% static '/style/pages/sobre/sobre.css' %}">
+{% endblock %}
+{% block title %}
+Academy One - Sobre
+{% endblock %}
+{% block content %}
+    <main class="conteudo-sobre">
+        <section class="historia fade-in-up" data-animate>
+            <h2 class="historia-titulo">Nossa História</h2>
+            <p class="historia-paragrafo">
+                No ENIAC Academy, nosso Ecossistema de Práticas Profissionais tem como missão capacitar alunos por meio de abordagens inovadoras e focadas na prática. Utilizando as Estações de Práticas Profissionais, oferecemos aos alunos uma experiência que vai além da teoria, promovendo o desenvolvimento de habilidades aplicáveis ao mercado de trabalho. Acreditamos que a verdadeira capacitação ocorre quando o conhecimento é aplicado em projetos reais e colaborativos. Nossos instrutores são líderes experientes em seus campos, oferecendo uma orientação valiosa que prepara os alunos para os desafios e oportunidades do mundo profissional. Junte-se a nós e transforme seu aprendizado em habilidades concretas que farão a diferença no seu futuro.
+            </p>
+        </section>
+
+        <section class="principios">
+            <article class="principio-item stagger-item" data-animate>
+                <img src="{% static '/images/pages/sobre/missao.png' %}" alt="" class="missao">
+                <h3 class="titulo">Missão</h3>
+                <p class="paragrafo">
+                    Reduzir a lacuna entre as expectativas do mercado e a formação oferecida pelas instituições de ensino, proporcionando aos alunos uma educação focada em experiências práticas e desenvolvimento de habilidades.
+
+                </p>
+            </article>
+
+            <article class="principio-item stagger-item" data-animate>
+                <img src="{% static '/images/pages/sobre/visao.png' %}" alt="" class="visao">
+                <h3 class="titulo">Visão</h3>
+                <p class="paragrafo">
+                    Ser reconhecida como a melhor startup de desenvolvimento e capacitação de profissionais do mercado, impulsionando uma nova geração de profissionais qualificados.
+
+                </p>
+            </article>
+
+            <article class="principio-item stagger-item" data-animate>
+                <img src="{% static '/images/pages/sobre/valores.png' %}" alt="" class="valores">
+                <h3 class="titulo">Valores</h3>
+                <p class="paragrafo">
+                    Comprometidos com ética, transparência e disciplina, promovemos o desenvolvimento de hard e soft skills essenciais para o mercado. Utilizamos ferramentas inovadoras e tecnológicas em um ambiente de ordem e segurança, com foco no crescimento profissional dos alunos.
+                </p>
+            </article>
+        </section>
+
+        <section class="pratica fade-in-up" data-animate>
+            <h2 class="pratica-titulo">Na Prática</h2>
+            <article class="pratica-imagens">
+                <div class="pratica-card ativo">
+                    <img src="{% static '/images/pages/sobre/imagem-pratica-1.png' %}" alt="" class="card-imagem">
+                </div>
+
+                <div class="pratica-card ">
+                    <img src="{% static '/images/pages/sobre/imagem-pratica-2.png' %}" alt="" class="card-imagem">
+                </div>
+
+                <div class="pratica-card">
+                    <img src="{% static '/images/pages/sobre/imagem-pratica-3.png' %}" alt="" class="card-imagem">
+                </div>
+            </article>
+            <article class="pratica-card-botao">
+                <button class="botao-card ativo"></button>
+                <button class="botao-card"></button>
+                <button class="botao-card"></button>
+            </article>
+        </section>
+    </main>
+{% endblock %}
+{% block js %}
+    <script src="{% static '/script/global/menuShow.js' %}"></script>
+    <script src="{% static '/script/pages/sobre/slider-sobre.js' %}"></script>
+{% endblock %}

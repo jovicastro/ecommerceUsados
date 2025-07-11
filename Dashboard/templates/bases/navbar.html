@@ -1,0 +1,83 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'style/global/global.css' %}">
+    {% block css %}{% endblock %}
+    {% block head %}
+    {% endblock %}
+    <title>{% block title %} {% endblock %}</title>
+</head>
+<body>
+    <div class="page-wrapper">
+        {% if request.path == '/' or request.path == '/core/sobre/' or request.path == '/core/contato/' %}
+            <header class="cabecalho" style="background-color: var(--azul-escuro); border-bottom: 2px solid var(--azul-claro);">
+        {% else %}
+        {% block header %}
+        <header class="cabecalho" style="background-color: {{ paleta_cor.cor_principal }}; border-bottom: 2px solid {{ paleta_cor.cor_detalhes }};">
+        {% endblock %}
+        {% endif %}
+
+            <section class="logo">
+                <a href="{% url 'homepage' %}">
+                    <img src="{% static '/images/global/logo_academy/logo-academy.png' %}" alt="Logo Academy One" class="logo-item">
+                </a>
+            </section>
+
+            <section class="menu">
+                <nav class="menu-item">
+                    <a href="{% url 'homepage' %}" class="item {% if request.path == '/' %}ativo{% endif %}">Home</a>
+                    <a href="{% url 'Core:sobre' %}" class="item {% if request.path == '/core/sobre/' %}ativo{% endif %}">Sobre</a>
+                    <a href="{% url 'Core:desenvolvedores' %}" class="item {% if request.path == '/core/desenvolvedores/' %}ativo{% endif %}">Devs</a>
+                    <a href="{% url 'Core:contato' %}" class="item {% if request.path == '/core/contato/' %}ativo{% endif %}">Contato</a>
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'Dashboard:index_estacao' %}" class="item {% if request.path|slice:':11' == '/dashboard/' %}ativo{% endif %}">Dashboard</a>
+                    <a href="{% url 'Core:leaderboard' %}" class="item {% if request.path == '/core/leaderboard/' %}ativo{% endif %}">Leaderboard</a>
+                    {% endif %}
+                </nav>
+                <button id="voice-assist-btn" aria-label="Ativar assistente de voz" class="botao-acessibilidade">
+                  🗣️ Acessibilidade
+                </button>
+                {% if not user.is_authenticated %}
+                <a href="{% url 'account_login' %}" class="botao">Entrar</a>
+                {% else %}
+                <a href="{% url 'account_logout' %}" class="botao">Sair</a>
+                {% endif %}
+            </section>
+
+            <section class="mobile" onclick="menuShow()">
+                <div class="mobile-item"></div>
+                <div class="mobile-item"></div>
+                <div class="mobile-item"></div>
+            </section>
+        </header>
+        
+        <main class="main-content">
+            {% block content %}
+            {% endblock %}
+        </main>
+        
+        <footer class="rodape">
+            <section class="imagem">
+                <img src="{% static '/images/global/logo_academy/logo-academy.png' %}" alt="logo academy one footer" class="imagem-item">
+            </section>
+        </footer>
+    </div>
+    
+    <script src="{% static 'script/global/menuShow.js' %}"></script>
+    <script src="{% static 'script/global/voiceAssist.js' %}"></script>
+    <script src="{% static 'script/global/responsive.js' %}"></script>
+    <script src="{% static 'script/global/scrollAnimations.js' %}"></script>
+    <script>
+        console.log(THREE);
+        console.log('BeamsBackground', window.BeamsBackground);
+        document.getElementById('principal-particles');
+    </script>
+</body>
+</html>
+
+{% block js %}
+{% endblock %}

@@ -1,0 +1,122 @@
+{% extends 'bases/base.html' %}
+{% load static %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'style/pages/leaderboard.css' %}">
+    <style>
+        .filter-container {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: flex-end;
+        }
+        .filter-container select {
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            margin-right: 10px;
+        }
+        .filter-container button {
+            padding: 8px 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .filter-container button:hover {
+            background-color: #45a049;
+        }
+        .area-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            background-color: #f0f0f0;
+            font-size: 0.9em;
+        }
+    </style>
+{% endblock %}
+
+{% block title %}
+    Academy One - Leaderboard
+{% endblock %}
+
+{% block content %}
+    <div class="leaderboard-container">
+        <h1 class="leaderboard-title">Leaderboard - Progresso dos Usuários</h1>
+
+        <div class="filter-container">
+            <form method="get" action="{% url 'Core:leaderboard' %}">
+                <select name="area" id="area-filter">
+                    <option value="all">Todas as Áreas</option>
+                    {% for area in areas %}
+                        <option value="{{ area.nome }}">{{ area.nome }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit">Filtrar</button>
+            </form>
+        </div>
+
+        <table class="leaderboard-table">
+            <thead>
+            <tr>
+                <th>Posição</th>
+                <th>Usuário</th>
+                <th>Área</th>
+                <th>Progresso de Conclusão</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for profile in users_list %}
+                <tr class="{% if forloop.counter == 1 %}top-1{% elif forloop.counter == 2 %}top-2{% elif forloop.counter == 3 %}top-3{% endif %}">
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ profile.user.username }}</td>
+                    <td>
+                        {% if profile.area %}
+                            <span class="area-badge">{{ profile.area.nome }}</span>
+                        {% else %}
+                            <span class="area-badge">Não definida</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" style="width: 0%">
+                                {{ profile.ebook_completion_percentage }}%
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="4" class="text-center">Ainda não há dados para exibir na leaderboard.</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+
+{% block js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Animação das barras de progresso
+  document.querySelectorAll('.progress-bar').forEach(function(bar) {
+    const percent = bar.textContent.replace('%','').trim();
+    setTimeout(() => {
+      bar.style.width = percent + '%';
+    }, 400);
+  });
+
+  // Selecionar a área correta no dropdown
+  const selectedArea = "{{ selected_area }}";
+  if (selectedArea) {
+    const selectElement = document.getElementById('area-filter');
+    for (let i = 0; i < selectElement.options.length; i++) {
+      if (selectElement.options[i].value === selectedArea) {
+        selectElement.options[i].selected = true;
+        break;
+      }
+    }
+  }
+});
+</script>
+{% endblock %}

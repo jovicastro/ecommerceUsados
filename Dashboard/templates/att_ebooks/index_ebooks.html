@@ -1,0 +1,113 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ ebook.titulo }}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'style/pages/dashboard/index/index_ebook.css' %}">
+</head>
+<body>
+    <div class="study-container">
+        <aside class="sidebar">
+            <div class="course-progress">
+                <div><a href="{% url 'Dashboard:ebook_estacoes' %}">ENIAC ACADEMY</a></div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar" style="width: {{ percentual_progresso }}%;"></div>
+                </div>
+                <p>{{ percentual_progresso }}% concluído</p>
+            </div>
+            <nav class="course-topics">
+                <h3>{{ ebook.titulo }}</h3>
+                
+                {% for capitulo in todos_capitulos %}
+                <div class="topic-group">
+                    <ul>
+                        <li class="{% if capitulo.id == capitulo_atual.id %}active{% endif %} {% if capitulo.id in capitulos_concluidos_ids %}concluido{% endif %}">
+                            <a href="{% url 'Dashboard:capitulo_detalhe' pk=ebook.id capitulo_id=capitulo.id %}">
+                            
+                                {# INÍCIO DO BLOCO LÓGICO PARA OS ÍCONES #}
+                                {% if capitulo.id in capitulos_concluidos_ids %}
+                                    {# Se o capítulo está na lista de concluídos, mostre o check. #}
+                                    <i class="fas fa-check-circle"></i>
+                                {% else %}
+                                    {# Caso contrário, mostre o livro aberto. #}
+                                    <i class="fas fa-book-open"></i>
+                                {% endif %}
+                                {# FIM DO BLOCO LÓGICO #}
+                            
+                                {{ capitulo.titulo }}
+                            </a>
+                            <ul>
+                                {# Lista de subcapítulos #}
+                                {% if capitulo.subcapitulos.all %}
+                                    <li>
+                                        <ul class="subcapitulos-list">
+                                            {% for subcapitulo in capitulo.subcapitulos.all %}
+                                                <li class="subcapitulo-item {% if subcapitulo.id in subcapitulos_concluidos_ids %}subcapitulo-concluido{% endif %}">
+                                                    <form method="post" action="{% url 'Dashboard:marcar_subcapitulo_concluido' %}" style="display: inline;">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" name="subcapitulo_id" value="{{ subcapitulo.id }}">
+                                                        <button type="submit" class="subcapitulo-link" style="background: none; border: none; cursor: pointer; text-align: left; width: 100%; padding: 5px;">
+                                                            {# Ícone baseado no tipo do subcapítulo #}
+                                                            {% if subcapitulo.tipo == 'pdf' %}
+                                                                <i class="fas fa-file-pdf"></i>
+                                                            {% elif subcapitulo.tipo == 'video' %}
+                                                                <i class="fas fa-play-circle"></i>
+                                                            {% elif subcapitulo.tipo == 'exercicio' %}
+                                                                <i class="fas fa-edit"></i>
+                                                            {% else %}
+                                                                <i class="fas fa-file-alt"></i>
+                                                            {% endif %}
+                                                            
+                                                            {# Ícone de conclusão #}
+                                                            {% if subcapitulo.id in subcapitulos_concluidos_ids %}
+                                                                <i class="fas fa-check-circle subcapitulo-check"></i>
+                                                            {% endif %}
+                                                            
+                                                            {{ subcapitulo.titulo }}
+                                                        </button>
+                                                    </form>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                {% endfor %}
+            </nav>
+        </aside>
+
+<main class="main-content">
+    
+    {# 1. Verificamos se a view enviou um capítulo. #}
+    {% if capitulo_atual %}
+        <header class="content-header">
+            {# 2. O título H1 lê da variável. #}
+            <h1><i class="fas fa-book-reader"></i> {{ capitulo_atual.titulo }}</h1>
+        </header>
+        
+        <div class="content-body">
+            {# 3. O parágrafo de conteúdo lê da variável. #}
+            <p>{{ capitulo_atual.conteudo|linebreaks }}</p>
+        </div>
+        
+        <footer class="content-footer">
+            {# 4. O botão de formulário usa o ID do capítulo atual. #}
+            <form action="{% url 'Dashboard:marcar_concluido' capitulo_id=capitulo_atual.id %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn-next">Marcar como Concluído e ir para o Próximo</button>
+            </form>
+        </footer>
+
+    {% else %}
+        <p>Este e-book não possui capítulos. Cadastre-os na área de administração.</p>
+    {% endif %}
+
+</main>
+</body>
+</html>

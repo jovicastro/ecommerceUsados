@@ -1,0 +1,137 @@
+{% extends 'bases/navbar.html' %}
+{% load static %}
+
+
+{% block title %}
+    Lista de Projetos - AcademyOne
+{% endblock %}
+
+
+{% block head %}
+{% endblock %}
+
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'style/pages/dashboard/index/index_dashboard.css' %}">
+{% endblock %}
+        
+{% block content %}
+<nav class="sub-navbar">
+    <a href="{% url 'Dashboard:index_estacao' %}" class="subnav-item {% if request.path == '/dashboard/' %}ativo{% endif %}">
+        <span style="margin-right:8px;">🏠</span>Início
+    </a>
+    <a href="{% url 'Dashboard:user' %}" class="subnav-item {% if request.path == '/dashboard/user/' %}ativo{% endif %}">
+        <span style="margin-right:8px;">👤</span>Perfil
+    </a>
+    <a href="{% url 'Dashboard:ebook_estacoes' %}" class="subnav-item {% if request.path == '/dashboard/ebook/' %}ativo{% endif %}">
+        <span style="margin-right:8px;">📚</span>E-book
+    </a>
+</nav>
+<div class="profile-container">
+    <img src="{{ user.profile.avatar.url }}" alt="Avatar de {{ user.username }}">
+    <h1>{{ user.get_full_name|default:user.username }}</h1>
+    <div class="username">@{{ user.username }}</div>
+    <button class="edit-btn" onclick="document.getElementById('edit-profile-modal').style.display='flex'">Editar Perfil</button>
+
+    <!-- Modal de edição de perfil -->
+    <div id="edit-profile-modal" class="modal-edit-profile" style="display:none;">
+      <div class="modal-content">
+        <span class="close-modal" onclick="document.getElementById('edit-profile-modal').style.display='none'">&times;</span>
+        <h2>Editar Perfil</h2>
+        <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          <label for="id_nome">Nome:</label>
+          <input type="text" id="id_nome" name="nome" value="{{ user.get_full_name|default:user.username }}" class="modal-input">
+          <label for="id_bio">Bio:</label>
+          <textarea id="id_bio" name="bio" rows="3" class="modal-input">{{ user.profile.bio }}</textarea>
+          <label for="id_avatar">Avatar:</label>
+          <input type="file" id="id_avatar" name="avatar" class="modal-input">
+          <button type="submit" class="modal-save-btn">Salvar</button>
+        </form>
+      </div>
+    </div>
+
+    <style>
+    .modal-edit-profile {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+    .modal-content {
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 8px 32px rgba(29,38,125,0.18);
+      padding: 36px 32px 28px 32px;
+      min-width: 320px;
+      max-width: 95vw;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      position: relative;
+    }
+    .close-modal {
+      position: absolute;
+      top: 18px; right: 24px;
+      font-size: 2rem;
+      color: #888;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .modal-content h2 {
+      color: var(--azul-escuro);
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 18px;
+    }
+    .modal-input {
+      width: 100%;
+      margin-bottom: 18px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1.5px solid #e3eafd;
+      font-size: 1.05rem;
+      font-family: var(--font-padrao);
+      background: #f8fbff;
+      color: var(--azul-escuro);
+    }
+    .modal-save-btn {
+      background: linear-gradient(90deg, var(--azul-claro) 60%, #7ed6fa 100%);
+      color: var(--azul-escuro);
+      border: none;
+      border-radius: 8px;
+      padding: 10px 32px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(53,190,240,0.10);
+      transition: background 0.2s, color 0.2s;
+    }
+    .modal-save-btn:hover {
+      background: var(--azul-escuro);
+      color: var(--branco);
+    }
+    @media (max-width: 600px) {
+      .modal-content {
+        min-width: 90vw;
+        padding: 18px 6vw 18px 6vw;
+      }
+    }
+    </style>
+    <div class="section-title">Sobre mim</div>
+    <div class="bio">{{ user.profile.bio|default:"Nenhuma biografia informada." }}</div>
+    <div class="section-title">Estatísticas</div>
+    <div class="stats">
+        <div class="stat-card">Cursos concluídos:<br><span>{{ user.profile.cursos_concluidos|default:0 }}</span></div>
+        <div class="stat-card">Pontos acumulados:<br><span>{{ user.profile.pontos|default:0 }}</span></div>
+        <div class="stat-card">Horas de estudo:<br><span>{{ user.profile.horas_estudo|default:0 }}</span></div>
+    </div>
+    <div class="courses-section">
+        <h2>Cursos Concluídos</h2>
+        <p>Nenhum curso concluído ainda. Continue estudando!</p>
+    </div>
+</div>
+{% endblock %}

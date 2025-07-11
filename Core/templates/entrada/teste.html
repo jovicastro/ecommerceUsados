@@ -1,0 +1,64 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Teste de Modelos</title>
+</head>
+<body>
+    <h1>Teste de Modelos</h1>
+
+    <h2>Estação Atual</h2>
+    <div>
+        <h3>{{ estacao_atual.nome }}</h3>
+        <img src="{{ estacao_atual.logo.url }}" alt="{{ estacao_atual.nome }} logo">
+        <p>Descrição: {{ estacao_atual.descricao_estacao }}</p>
+        <p>Texto Funcionamento: {{ estacao_atual.texto_funcionamento }}</p>
+        <p>Responsabilidade: {{ estacao_atual.responsabilidade }}</p>
+    </div>
+
+    <h2>Serviços da Estação</h2>
+    {% for servico in estacao_atual.texto_servicos_estacoe_set.all %}
+        <p>{{ servico.servico }}</p>
+    {% empty %}
+        <p>Sem serviços cadastrados para esta estação.</p>
+    {% endfor %}
+
+    <h2>Benefícios da Estação</h2>
+    {% for beneficio in estacao_atual.texto_beneficios_estacoe_set.all %}
+        <p>{{ beneficio.beneficio }}</p>
+    {% empty %}
+        <p>Sem benefícios cadastrados para esta estação.</p>
+    {% endfor %}
+
+    <h2>Imagens de Equipe</h2>
+    {% for imagem in imagens_equipe %}
+        <div>
+            <img src="{{ imagem.imagem.url }}" alt="{{ imagem.alt }}">
+            <p>Estação: {{ imagem.estacao.nome }}</p>
+        </div>
+    {% empty %}
+        <p>Sem imagens de equipe cadastradas para esta estação.</p>
+    {% endfor %}
+
+    <h2>Imagens de Benefícios Cores</h2>
+    {% for img_beneficio in imagens_beneficios_cores %}
+        <div>
+            <img src="{{ img_beneficio.imagem.url }}" alt="{{ img_beneficio.alt }}">
+            <p>Benefício da cor {{ img_beneficio.cor.nome }}</p>
+        </div>
+    {% empty %}
+        <p>Sem imagens de benefícios cadastradas para essa cor.</p>
+    {% endfor %}
+
+    <h2>Imagens de Ideal Para</h2>
+    {% for img_ideal in imagens_ideais_para %}
+        <div>
+            <img src="{{ img_ideal.imagem.url }}" alt="{{ img_ideal.alt }}">
+            <p>Cor: {{ img_ideal.cor.nome }}</p>
+        </div>
+    {% empty %}
+        <p>Sem imagens de 'Ideal Para' cadastradas para essa cor.</p>
+    {% endfor %}
+</body>
+</html>
